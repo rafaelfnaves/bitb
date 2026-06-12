@@ -1,4 +1,4 @@
-# bb — Bitbucket CLI
+# bitb — Bitbucket CLI
 
 ## Project Overview
 

@@ -1,4 +1,4 @@
-# bb — Bitbucket CLI
+# bitb — Bitbucket CLI
 
 A command-line interface for Bitbucket Cloud, inspired by GitHub's `gh` CLI. Manage branches, pull requests, issues, and pipelines directly from your terminal.
 
