@@ -15,24 +15,63 @@ import (
 var authCmd = &cobra.Command{
 	Use:   "auth",
 	Short: "Manage authentication",
+	Long: `Manage authentication credentials for Bitbucket Cloud.
+
+EXAMPLES
+  # Interactive login (recommended)
+  bitb auth login
+
+  # Check current authentication status and connectivity
+  bitb auth status
+
+  # Remove stored credentials
+  bitb auth logout`,
 }
 
 var authLoginCmd = &cobra.Command{
 	Use:   "login",
 	Short: "Log in to Bitbucket with an API token",
-	RunE:  runAuthLogin,
+	Long: `Authenticate bitb with your Bitbucket Cloud account using an API token.
+
+You will need to create an API token at:
+  https://id.atlassian.com/manage-profile/security/api-tokens
+
+The interactive form will prompt for:
+  - Workspace slug (e.g. mycompany)
+  - Atlassian account email
+  - API token
+
+Credentials are saved to ~/.config/bitb/config.toml (mode 0600).
+
+EXAMPLE
+  bitb auth login`,
+	RunE: runAuthLogin,
 }
 
 var authStatusCmd = &cobra.Command{
 	Use:   "status",
 	Short: "Show current authentication status",
-	RunE:  runAuthStatus,
+	Long: `Display the current authentication configuration and verify connectivity.
+
+Shows workspace, email, masked token, config file path, and tests
+the connection to the Bitbucket API.
+
+EXAMPLE
+  bitb auth status`,
+	RunE: runAuthStatus,
 }
 
 var authLogoutCmd = &cobra.Command{
 	Use:   "logout",
 	Short: "Remove stored credentials",
-	RunE:  runAuthLogout,
+	Long: `Remove the stored Bitbucket credentials from the config file.
+
+After logging out, commands requiring authentication will prompt you
+to run 'bitb auth login' again.
+
+EXAMPLE
+  bitb auth logout`,
+	RunE: runAuthLogout,
 }
 
 func init() {

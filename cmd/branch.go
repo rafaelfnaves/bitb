@@ -16,19 +16,66 @@ import (
 var branchCmd = &cobra.Command{
 	Use:   "branch",
 	Short: "Manage branches",
+	Long: `Manage remote branches in a Bitbucket repository.
+
+EXAMPLES
+  # List all branches
+  bitb branch list
+
+  # Search for branches by name
+  bitb branch list --search "feature"
+
+  # Delete a branch (with confirmation prompt)
+  bitb branch delete my-branch
+
+  # Delete without confirmation
+  bitb branch delete my-branch --yes`,
 }
 
 var branchListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List remote branches",
-	RunE:  runBranchList,
+	Long: `List remote branches in the current or specified repository.
+
+The repository is auto-detected from the git remote. Use --repo to
+specify a different repository.
+
+EXAMPLES
+  # List all branches
+  bitb branch list
+
+  # Filter branches by name
+  bitb branch list --search "feature"
+
+  # Filter branches by author
+  bitb branch list --author "Rafael"
+
+  # Output as JSON
+  bitb branch list --json
+
+  # Limit results
+  bitb branch list --limit 20`,
+	RunE: runBranchList,
 }
 
 var branchDeleteCmd = &cobra.Command{
 	Use:   "delete <branch>",
 	Short: "Delete a remote branch",
-	Args:  cobra.ExactArgs(1),
-	RunE:  runBranchDelete,
+	Long: `Delete a remote branch from the Bitbucket repository.
+
+A confirmation prompt is shown before deletion. Use --yes to skip it.
+
+EXAMPLES
+  # Delete with confirmation prompt
+  bitb branch delete feature/my-feature
+
+  # Delete without confirmation
+  bitb branch delete feature/my-feature --yes
+
+  # Delete from a specific repo
+  bitb branch delete feature/my-feature --repo myworkspace/myrepo`,
+	Args: cobra.ExactArgs(1),
+	RunE: runBranchDelete,
 }
 
 func init() {

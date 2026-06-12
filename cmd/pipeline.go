@@ -14,6 +14,20 @@ import (
 var pipelineCmd = &cobra.Command{
 	Use:   "pipeline",
 	Short: "View pipelines",
+	Long: `View and inspect Bitbucket Pipelines for a repository.
+
+EXAMPLES
+  # List recent pipelines
+  bitb pipeline list
+
+  # Filter by branch
+  bitb pipeline list --branch main
+
+  # View details and steps of a specific pipeline
+  bitb pipeline view 123
+
+  # Open pipeline in browser
+  bitb pipeline view 123 --web`,
 }
 
 func init() {
@@ -84,14 +98,42 @@ type pipelineStep struct {
 var pipelineListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List recent pipelines",
-	RunE:  runPipelineList,
+	Long: `List recent pipeline runs for the current or specified repository.
+
+EXAMPLES
+  # List recent pipelines
+  bitb pipeline list
+
+  # Filter by branch
+  bitb pipeline list --branch main
+
+  # Limit results
+  bitb pipeline list --limit 10
+
+  # Output as JSON
+  bitb pipeline list --json
+
+  # Target a specific repository
+  bitb pipeline list --repo myworkspace/myrepo`,
+	RunE: runPipelineList,
 }
 
 var pipelineViewCmd = &cobra.Command{
 	Use:   "view <build-number>",
 	Short: "View pipeline details and steps",
-	Args:  cobra.ExactArgs(1),
-	RunE:  runPipelineView,
+	Long: `Display detailed information about a pipeline run, including all steps and their status.
+
+EXAMPLES
+  # View pipeline #123 details
+  bitb pipeline view 123
+
+  # Open pipeline in browser
+  bitb pipeline view 123 --web
+
+  # Output as JSON
+  bitb pipeline view 123 --json`,
+	Args: cobra.ExactArgs(1),
+	RunE: runPipelineView,
 }
 
 func runPipelineList(cmd *cobra.Command, _ []string) error {

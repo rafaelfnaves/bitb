@@ -19,6 +19,26 @@ import (
 var prCmd = &cobra.Command{
 	Use:   "pr",
 	Short: "Manage pull requests",
+	Long: `Manage pull requests in a Bitbucket repository.
+
+EXAMPLES
+  # List open pull requests
+  bitb pr list
+
+  # View details of a specific PR
+  bitb pr view 42
+
+  # Create a new pull request interactively
+  bitb pr create
+
+  # Merge a pull request
+  bitb pr merge 42
+
+  # Approve a pull request
+  bitb pr approve 42
+
+  # Show the diff of a pull request
+  bitb pr diff 42`,
 }
 
 func init() {
@@ -114,41 +134,132 @@ type prComment struct {
 var prListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List pull requests",
-	RunE:  runPRList,
+	Long: `List pull requests for the current or specified repository.
+
+Defaults to listing OPEN pull requests. Use --state to filter by status.
+
+EXAMPLES
+  # List open pull requests (default)
+  bitb pr list
+
+  # List merged pull requests
+  bitb pr list --state MERGED
+
+  # Filter by author
+  bitb pr list --author "Rafael"
+
+  # Output as JSON
+  bitb pr list --json
+
+  # Open pull requests list in browser
+  bitb pr list --web
+
+  # Target a specific repository
+  bitb pr list --repo myworkspace/myrepo`,
+	RunE: runPRList,
 }
 
 var prViewCmd = &cobra.Command{
 	Use:   "view <id>",
 	Short: "View a pull request",
-	Args:  cobra.ExactArgs(1),
-	RunE:  runPRView,
+	Long: `Display detailed information about a pull request.
+
+Shows title, state, branches, author, reviewers, approvals, and description
+(rendered as markdown). Use --comments to also show all comments.
+
+EXAMPLES
+  # View PR details
+  bitb pr view 42
+
+  # View PR with comments
+  bitb pr view 42 --comments
+
+  # Open PR in browser
+  bitb pr view 42 --web
+
+  # Output raw JSON
+  bitb pr view 42 --json`,
+	Args: cobra.ExactArgs(1),
+	RunE: runPRView,
 }
 
 var prCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create a pull request",
-	RunE:  runPRCreate,
+	Long: `Create a new pull request for the current branch.
+
+The source branch defaults to the current git branch. The destination
+branch is auto-detected from the repository's main branch setting.
+
+If --title is not provided, you will be prompted for it.
+If --body is not provided, your $EDITOR will open for the description.
+
+EXAMPLES
+  # Create interactively (prompts for title, opens editor for body)
+  bitb pr create
+
+  # Create with flags
+  bitb pr create --title "Fix login bug" --source feature/fix --dest main
+
+  # Create as draft (work in progress)
+  bitb pr create --title "WIP: new feature" --draft
+
+  # Open in browser after creation
+  bitb pr create --title "My PR" --web`,
+	RunE: runPRCreate,
 }
 
 var prMergeCmd = &cobra.Command{
 	Use:   "merge <id>",
 	Short: "Merge a pull request",
-	Args:  cobra.ExactArgs(1),
-	RunE:  runPRMerge,
+	Long: `Merge a pull request into its destination branch.
+
+The default merge strategy is merge_commit. Use --strategy to change it.
+The source branch is closed after merge by default.
+
+MERGE STRATEGIES
+  merge_commit   Standard merge commit (default)
+  squash         Squash all commits into one
+  fast_forward   Fast-forward merge (requires linear history)
+
+EXAMPLES
+  # Merge with default strategy
+  bitb pr merge 42
+
+  # Squash merge
+  bitb pr merge 42 --strategy squash
+
+  # Custom merge commit message
+  bitb pr merge 42 --message "Merge feature X into main"
+
+  # Keep source branch after merge
+  bitb pr merge 42 --close-source=false`,
+	Args: cobra.ExactArgs(1),
+	RunE: runPRMerge,
 }
 
 var prApproveCmd = &cobra.Command{
 	Use:   "approve <id>",
 	Short: "Approve a pull request",
-	Args:  cobra.ExactArgs(1),
-	RunE:  runPRApprove,
+	Long: `Approve a pull request as the authenticated user.
+
+EXAMPLE
+  bitb pr approve 42`,
+	Args: cobra.ExactArgs(1),
+	RunE: runPRApprove,
 }
 
 var prDiffCmd = &cobra.Command{
 	Use:   "diff <id>",
 	Short: "Show the diff of a pull request",
-	Args:  cobra.ExactArgs(1),
-	RunE:  runPRDiff,
+	Long: `Display the unified diff of a pull request with syntax highlighting.
+
+Added lines are shown in green, removed lines in red, and file headers in bold.
+
+EXAMPLE
+  bitb pr diff 42`,
+	Args: cobra.ExactArgs(1),
+	RunE: runPRDiff,
 }
 
 func runPRList(cmd *cobra.Command, _ []string) error {

@@ -15,18 +15,63 @@ import (
 var repoCmd = &cobra.Command{
 	Use:   "repo",
 	Short: "Manage repositories",
+	Long: `Manage Bitbucket repositories in your workspace.
+
+EXAMPLES
+  # List all repositories in your workspace
+  bitb repo list
+
+  # View info about the current repository
+  bitb repo view
+
+  # Open the repository in the browser
+  bitb repo view --web`,
 }
 
 var repoListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List repositories in workspace",
-	RunE:  runRepoList,
+	Long: `List all repositories in the configured workspace, sorted by last update.
+
+EXAMPLES
+  # List repositories in the default workspace
+  bitb repo list
+
+  # List repositories from a specific workspace
+  bitb repo list --workspace myworkspace
+
+  # Output as JSON
+  bitb repo list --json
+
+  # Limit results
+  bitb repo list --limit 20
+
+  # Open workspace in browser
+  bitb repo list --web`,
+	RunE: runRepoList,
 }
 
 var repoViewCmd = &cobra.Command{
 	Use:   "view",
 	Short: "View current repository info",
-	RunE:  runRepoView,
+	Long: `Display details about a repository: description, main branch, size, and clone URLs.
+
+The repository is auto-detected from the git remote. Use --repo to
+specify a different repository.
+
+EXAMPLES
+  # View current repository
+  bitb repo view
+
+  # View a specific repository
+  bitb repo view --repo myworkspace/myrepo
+
+  # Open in browser
+  bitb repo view --web
+
+  # Output as JSON
+  bitb repo view --json`,
+	RunE: runRepoView,
 }
 
 func init() {

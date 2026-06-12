@@ -18,6 +18,23 @@ import (
 var issueCmd = &cobra.Command{
 	Use:   "issue",
 	Short: "Manage issues",
+	Long: `Manage issues in a Bitbucket repository.
+
+Note: Issues require the repository to have Bitbucket Issues enabled.
+Repositories using Jira or other trackers will return an error.
+
+EXAMPLES
+  # List open issues
+  bitb issue list
+
+  # Filter by kind
+  bitb issue list --kind bug
+
+  # View issue details
+  bitb issue view 15
+
+  # Create a new issue
+  bitb issue create --title "Something is broken"`,
 }
 
 func init() {
@@ -82,20 +99,78 @@ type issueComment struct {
 var issueListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List issues",
-	RunE:  runIssueList,
+	Long: `List issues for the current or specified repository.
+
+Defaults to listing new and open issues. Use --status to filter by state.
+
+STATUSES
+  new, open, resolved, on hold, invalid, duplicate, wontfix, closed
+
+KINDS
+  bug, enhancement, proposal, task
+
+EXAMPLES
+  # List new and open issues (default)
+  bitb issue list
+
+  # Filter by status
+  bitb issue list --status resolved
+
+  # Filter by kind
+  bitb issue list --kind bug
+
+  # Filter by assignee
+  bitb issue list --assignee john
+
+  # Output as JSON
+  bitb issue list --json`,
+	RunE: runIssueList,
 }
 
 var issueViewCmd = &cobra.Command{
 	Use:   "view <id>",
 	Short: "View an issue",
-	Args:  cobra.ExactArgs(1),
-	RunE:  runIssueView,
+	Long: `Display detailed information about an issue.
+
+Shows title, status, kind, priority, reporter, assignee, and description
+(rendered as markdown). Use --comments to also show all comments.
+
+EXAMPLES
+  # View issue details
+  bitb issue view 15
+
+  # View with comments
+  bitb issue view 15 --comments
+
+  # Open in browser
+  bitb issue view 15 --web
+
+  # Output as JSON
+  bitb issue view 15 --json`,
+	Args: cobra.ExactArgs(1),
+	RunE: runIssueView,
 }
 
 var issueCreateCmd = &cobra.Command{
 	Use:   "create",
 	Short: "Create an issue",
-	RunE:  runIssueCreate,
+	Long: `Create a new issue in the repository.
+
+If --title is not provided, you will be prompted for it.
+
+KINDS     bug, enhancement, proposal, task (default: task)
+PRIORITY  trivial, minor, major, critical, blocker (default: major)
+
+EXAMPLES
+  # Create interactively (prompts for title)
+  bitb issue create
+
+  # Create with flags
+  bitb issue create --title "Login page crashes" --kind bug --priority critical
+
+  # Create an enhancement request
+  bitb issue create --title "Add dark mode" --kind enhancement`,
+	RunE: runIssueCreate,
 }
 
 func issueNotEnabled() error {

@@ -21,7 +21,28 @@ var version = "dev"
 var rootCmd = &cobra.Command{
 	Use:           "bitb",
 	Short:         "Bitbucket CLI",
-	Long:          "A GitHub CLI-inspired tool for Bitbucket Cloud repositories.",
+	Long: `bitb — Bitbucket Cloud CLI
+
+A command-line interface for Bitbucket Cloud, inspired by GitHub's gh CLI.
+Manage branches, pull requests, issues, and pipelines directly from your terminal.
+
+AUTHENTICATION
+  Run 'bitb auth login' to get started. You will need an API token from:
+  https://id.atlassian.com/manage-profile/security/api-tokens
+
+REPOSITORY AUTO-DETECTION
+  bitb detects the current repository from the git remote automatically.
+  Both SSH and HTTPS Bitbucket remotes are supported:
+    git@bitbucket.org:myworkspace/myrepo.git
+    https://bitbucket.org/myworkspace/myrepo
+
+  Use --repo workspace/slug to target a specific repository explicitly.
+
+EXAMPLES
+  bitb auth login
+  bitb pr list
+  bitb repo list
+  bitb pipeline list --branch main`,
 	SilenceErrors: true,
 	SilenceUsage:  true,
 	Version:       version,
