@@ -99,8 +99,9 @@ var issueCreateCmd = &cobra.Command{
 }
 
 func issueNotEnabled() error {
-	return fmt.Errorf("this repository does not have Bitbucket Issues enabled\n" +
-		ui.StyleDim.Render("  (the repo may use Jira or another tracker instead)"))
+	msg := "this repository does not have Bitbucket Issues enabled\n" +
+		ui.StyleDim.Render("  (the repo may use Jira or another tracker instead)")
+	return fmt.Errorf("%s", msg)
 }
 
 func runIssueList(cmd *cobra.Command, _ []string) error {

@@ -76,15 +76,18 @@ func DetectRepo() (workspace, slug string, ok bool) {
 	if err != nil {
 		return "", "", false
 	}
-	url := strings.TrimSpace(string(out))
+	return ParseRemoteURL(strings.TrimSpace(string(out)))
+}
 
+// ParseRemoteURL extracts workspace and slug from a Bitbucket remote URL.
+func ParseRemoteURL(rawURL string) (workspace, slug string, ok bool) {
 	var path string
 	switch {
-	case strings.HasPrefix(url, "git@bitbucket.org:"):
-		path = strings.TrimPrefix(url, "git@bitbucket.org:")
+	case strings.HasPrefix(rawURL, "git@bitbucket.org:"):
+		path = strings.TrimPrefix(rawURL, "git@bitbucket.org:")
 		path = strings.TrimSuffix(path, ".git")
-	case strings.Contains(url, "bitbucket.org/"):
-		parts := strings.SplitN(url, "bitbucket.org/", 2)
+	case strings.Contains(rawURL, "bitbucket.org/"):
+		parts := strings.SplitN(rawURL, "bitbucket.org/", 2)
 		if len(parts) < 2 {
 			return "", "", false
 		}
