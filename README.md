@@ -7,7 +7,7 @@ A command-line interface for Bitbucket Cloud, inspired by GitHub's `gh` CLI. Man
 **Requirements:** Go 1.21+ (installed via `brew install go`)
 
 ```bash
-cd ~/personal/bb
+cd ~/personal/bitb
 go install ./...
 ```
 
@@ -105,7 +105,7 @@ https://bitbucket.org/myworkspace/myrepo
 ## Rebuilding after changes
 
 ```bash
-cd ~/personal/bb
+cd ~/personal/bitb
 go build ./...    # check for errors
 go install ./...  # install updated binary
 ```
