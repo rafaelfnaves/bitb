@@ -30,7 +30,12 @@ archives:
 checksum:
   name_template: checksums.txt
 
+changelog:
+  disable: true
+
 release:
   github:
     owner: rafaelfnaves
     name: bitb
+  # release-please creates the release with CHANGELOG — GoReleaser only uploads binaries
+  replace_existing_draft: true
