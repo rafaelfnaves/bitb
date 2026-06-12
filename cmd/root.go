@@ -16,13 +16,15 @@ type contextKey string
 const clientKey contextKey = "client"
 const configKey contextKey = "config"
 
+var version = "dev"
+
 var rootCmd = &cobra.Command{
 	Use:           "bitb",
 	Short:         "Bitbucket CLI",
 	Long:          "A GitHub CLI-inspired tool for Bitbucket Cloud repositories.",
 	SilenceErrors: true,
 	SilenceUsage:  true,
-	Version:       "0.1.0",
+	Version:       version,
 }
 
 func Execute() {
