@@ -65,7 +65,7 @@ func (c *Client) newRequest(method, path string, body any) (*http.Request, error
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
-	req.Header.Set("User-Agent", "bb-cli/0.1.0")
+	req.Header.Set("User-Agent", "bitb-cli/0.1.0")
 	return req, nil
 }
 

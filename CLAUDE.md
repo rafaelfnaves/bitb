@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-A Go CLI tool for Bitbucket Cloud (REST API v2), built with Cobra + Charm.sh. Binary installs to `~/go/bin/bb` via `go install ./...`.
+A Go CLI tool for Bitbucket Cloud (REST API v2), built with Cobra + Charm.sh. Binary installs to `~/go/bin/bitb` via `go install ./...`.
 
 ## Architecture
 
@@ -10,12 +10,12 @@ A Go CLI tool for Bitbucket Cloud (REST API v2), built with Cobra + Charm.sh. Bi
 main.go                  # entry point — calls cmd.Execute()
 cmd/
   root.go                # Cobra root, PersistentPreRunE loads config+client into context
-  auth.go                # bb auth login/status/logout
-  branch.go              # bb branch list/delete
-  pr.go                  # bb pr list/view/create/merge/approve/diff
-  repo.go                # bb repo list/view
-  issue.go               # bb issue list/view/create
-  pipeline.go            # bb pipeline list/view
+  auth.go                # bitb auth login/status/logout
+  branch.go              # bitb branch list/delete
+  pr.go                  # bitb pr list/view/create/merge/approve/diff
+  repo.go                # bitb repo list/view
+  issue.go               # bitb issue list/view/create
+  pipeline.go            # bitb pipeline list/view
 internal/
   api/client.go          # BitbucketClient, Paginate[T], APIError
   config/config.go       # Viper-based config, DetectRepo(), ResolveRepo()

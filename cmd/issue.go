@@ -10,9 +10,9 @@ import (
 
 	"github.com/charmbracelet/glamour"
 
-	"github.com/rafaelfernandes/bb/internal/api"
-	"github.com/rafaelfernandes/bb/internal/config"
-	"github.com/rafaelfernandes/bb/internal/ui"
+	"github.com/rafaelfnaves/bitb/internal/api"
+	"github.com/rafaelfnaves/bitb/internal/config"
+	"github.com/rafaelfnaves/bitb/internal/ui"
 )
 
 var issueCmd = &cobra.Command{

@@ -20,7 +20,7 @@ type Config struct {
 
 func configDir() string {
 	home, _ := os.UserHomeDir()
-	return filepath.Join(home, ".config", "bb")
+	return filepath.Join(home, ".config", "bitb")
 }
 
 func configPath() string {

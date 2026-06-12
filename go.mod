@@ -1,4 +1,4 @@
-module github.com/rafaelfernandes/bb
+module github.com/rafaelfnaves/bitb
 
 go 1.26.4
 

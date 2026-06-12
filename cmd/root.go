@@ -7,8 +7,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/rafaelfernandes/bb/internal/api"
-	"github.com/rafaelfernandes/bb/internal/config"
+	"github.com/rafaelfnaves/bitb/internal/api"
+	"github.com/rafaelfnaves/bitb/internal/config"
 )
 
 type contextKey string
@@ -17,7 +17,7 @@ const clientKey contextKey = "client"
 const configKey contextKey = "config"
 
 var rootCmd = &cobra.Command{
-	Use:           "bb",
+	Use:           "bitb",
 	Short:         "Bitbucket CLI",
 	Long:          "A GitHub CLI-inspired tool for Bitbucket Cloud repositories.",
 	SilenceErrors: true,
